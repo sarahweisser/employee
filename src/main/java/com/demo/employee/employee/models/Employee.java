@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
 
+import java.time.LocalDate;
 import java.util.Date;
 
 @Entity
@@ -30,7 +31,7 @@ public class Employee {
     private String phone;
 
     @Column()
-    private Date birthDate;
+    private LocalDate birthDate;
 
     @Column()
     private String jobTitle;
@@ -42,7 +43,7 @@ public class Employee {
     private String location;
 
     @Column()
-    private Date startDate;
+    private LocalDate startDate;
 
     @Column(unique = true)
     private Long employeeId;
@@ -50,7 +51,7 @@ public class Employee {
     @Column()
     private String reportingManager;
 
-    public Employee(Long id, String firstName, String lastName, String email, String phone, Date birthDate, String jobTitle, String department, String location, Date startDate, Long employeeId, String reportingManager) {
+    public Employee(Long id, String firstName, String lastName, String email, String phone, LocalDate birthDate, String jobTitle, String department, String location, LocalDate startDate, Long employeeId, String reportingManager) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
@@ -108,11 +109,11 @@ public class Employee {
         this.phone = phone;
     }
 
-    public Date getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(Date birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 
@@ -140,11 +141,11 @@ public class Employee {
         this.location = location;
     }
 
-    public Date getStartDate() {
+    public LocalDate getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Date startDate) {
+    public void setStartDate(LocalDate startDate) {
         this.startDate = startDate;
     }
 

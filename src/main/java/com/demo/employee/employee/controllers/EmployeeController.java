@@ -34,4 +34,18 @@ public class EmployeeController {
         return resp;
     }
 
+    @DeleteMapping("/{id}")
+    void deleteEmployeeById(@PathVariable Long id) {
+        employeeJpaRepository.deleteById(id);
+    }
+
+    @PutMapping("/{id}")
+    Employee updateEmployee(@RequestBody Employee employee) {
+        // TODO handle emp not found
+        // TODO validate input
+
+        Optional<Employee> resp = employeeJpaRepository.findById(employee.getId());
+        return employeeJpaRepository.saveAndFlush(resp.get());
+    }
+
 }
