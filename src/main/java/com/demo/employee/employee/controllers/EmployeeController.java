@@ -3,10 +3,9 @@ package com.demo.employee.employee.controllers;
 import com.demo.employee.employee.models.Employee;
 import com.demo.employee.employee.repositories.EmployeeJpaRepository;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -16,7 +15,7 @@ public class EmployeeController {
     EmployeeJpaRepository employeeJpaRepository;
 
     @GetMapping("")
-    Iterable<Employee> findAllEmployees() {
+    List<Employee> findAllEmployees() {
         return employeeJpaRepository.findAll();
     }
 
@@ -43,7 +42,6 @@ public class EmployeeController {
     Employee updateEmployee(@RequestBody Employee employee) {
         // TODO handle emp not found
         // TODO validate input
-
         Optional<Employee> resp = employeeJpaRepository.findById(employee.getId());
         return employeeJpaRepository.saveAndFlush(resp.get());
     }
