@@ -3,9 +3,9 @@ package com.demo.employee.employee.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
+import org.hibernate.validator.constraints.UniqueElements;
 
 import java.time.LocalDate;
-import java.util.Date;
 
 @Entity
 @Table(name = "employee")
@@ -24,7 +24,7 @@ public class Employee {
     private String lastName;
 
     @NotBlank
-    @Column(unique = true)
+    @Column()
     private String email;
 
     @Column()
@@ -45,7 +45,7 @@ public class Employee {
     @Column()
     private LocalDate startDate;
 
-    @Column(unique = true)
+    @Column()
     private Long employeeId;
 
     @Column()

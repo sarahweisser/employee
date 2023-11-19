@@ -1,49 +1,46 @@
 package com.demo.employee.employee.controllers;
 
 import com.demo.employee.employee.models.Employee;
-import com.demo.employee.employee.repositories.EmployeeJpaRepository;
+import com.demo.employee.employee.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/employees")
 public class EmployeeController {
     @Autowired
-    EmployeeJpaRepository employeeJpaRepository;
+    EmployeeServiceImpl employeeService;
 
     @GetMapping("")
     List<Employee> findAllEmployees() {
-        return employeeJpaRepository.findAll();
+        return employeeService.findAllEmployees();
     }
 
     @PostMapping("")
-    Employee createEmployee(@RequestBody Employee employee) {
-        Employee resp = employeeJpaRepository.saveAndFlush(employee);
-        // TODO handle validation
-        // TODO handle sys error
-        return resp;
+    ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
+        Employee createdEmployee = employeeService.createEmployee(employee);
+        return new ResponseEntity<>(createdEmployee, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    Optional<Employee> findEmployeeById(@PathVariable Long id) {
-        Optional<Employee> resp = employeeJpaRepository.findById(id);
-        return resp;
+    ResponseEntity<Employee> findEmployeeById(@PathVariable Long id) {
+        Employee employee = employeeService.findEmployeeById(id);
+        return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    void deleteEmployeeById(@PathVariable Long id) {
-        employeeJpaRepository.deleteById(id);
+    ResponseEntity<Employee> deleteEmployeeById(@PathVariable Long id) {
+        Employee deletedEmployee = employeeService.deleteEmployeeById(id);
+        return new ResponseEntity<>(deletedEmployee, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    Employee updateEmployee(@RequestBody Employee employee) {
-        // TODO handle emp not found
-        // TODO validate input
-        Optional<Employee> resp = employeeJpaRepository.findById(employee.getId());
-        return employeeJpaRepository.saveAndFlush(resp.get());
+    ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
+        Employee updatedEmployee = employeeService.updateEmployee(employee);
+        return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
-
 }
