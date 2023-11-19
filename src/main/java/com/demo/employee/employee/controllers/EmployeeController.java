@@ -1,6 +1,7 @@
 package com.demo.employee.employee.controllers;
 
 import com.demo.employee.employee.models.Employee;
+import com.demo.employee.employee.models.EmployeeResponse;
 import com.demo.employee.employee.services.EmployeeServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -21,26 +22,26 @@ public class EmployeeController {
     }
 
     @PostMapping("")
-    ResponseEntity<Employee> createEmployee(@RequestBody Employee employee) {
-        Employee createdEmployee = employeeService.createEmployee(employee);
+    ResponseEntity<EmployeeResponse> createEmployee(@RequestBody Employee employee) {
+        EmployeeResponse createdEmployee = new EmployeeResponse(employeeService.createEmployee(employee), null);
         return new ResponseEntity<>(createdEmployee, HttpStatus.OK);
     }
 
     @GetMapping("/{id}")
-    ResponseEntity<Employee> findEmployeeById(@PathVariable Long id) {
-        Employee employee = employeeService.findEmployeeById(id);
+    ResponseEntity<EmployeeResponse> findEmployeeById(@PathVariable Long id) {
+        EmployeeResponse employee = new EmployeeResponse(employeeService.findEmployeeById(id).get(), null);
         return new ResponseEntity<>(employee, HttpStatus.OK);
     }
 
     @DeleteMapping("/{id}")
-    ResponseEntity<Employee> deleteEmployeeById(@PathVariable Long id) {
-        Employee deletedEmployee = employeeService.deleteEmployeeById(id);
+    ResponseEntity<EmployeeResponse> deleteEmployeeById(@PathVariable Long id) {
+        EmployeeResponse deletedEmployee = new EmployeeResponse(employeeService.deleteEmployeeById(id), null);
         return new ResponseEntity<>(deletedEmployee, HttpStatus.OK);
     }
 
     @PutMapping("/{id}")
-    ResponseEntity<Employee> updateEmployee(@RequestBody Employee employee) {
-        Employee updatedEmployee = employeeService.updateEmployee(employee);
+    ResponseEntity<EmployeeResponse> updateEmployee(@RequestBody Employee employee) {
+        EmployeeResponse updatedEmployee = new EmployeeResponse(employeeService.updateEmployee(employee), null);
         return new ResponseEntity<>(updatedEmployee, HttpStatus.OK);
     }
 }

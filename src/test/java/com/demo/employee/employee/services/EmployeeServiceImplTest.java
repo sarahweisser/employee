@@ -42,7 +42,7 @@ public class EmployeeServiceImplTest {
                     "LOCATION_3", oldStartDate, 116L, "REPORTING_MANAGER_3");
 
     @BeforeEach
-    public void clearData() {
+    public void resetData() {
         employeeJpaRepository.deleteAll();
         addEmployees();
     }
@@ -58,7 +58,7 @@ public class EmployeeServiceImplTest {
     void testFindEmployeeById() {
         Optional<Employee> employee = employeeJpaRepository.findEmployeeByEmail(existingEmployee.getEmail());
         if (employee.isPresent()) {
-            Employee existingEmployee = employeeService.findEmployeeById(employee.get().getId());
+            Employee existingEmployee = employeeService.findEmployeeById(employee.get().getId()).get();
             Assertions.assertEquals(existingEmployee.getEmployeeId(), employee.get().getEmployeeId());
         }
     }
@@ -66,7 +66,7 @@ public class EmployeeServiceImplTest {
     @DisplayName("testCreateEmployee")
     void testCreateEmployee() {
         Employee createdEmployee = employeeService.createEmployee(newEmployee);
-        Employee retrievedEmployee = employeeService.findEmployeeById(createdEmployee.getId());
+        Employee retrievedEmployee = employeeService.findEmployeeById(createdEmployee.getId()).get();
 
         Assertions.assertEquals(newEmployee.getEmail(), retrievedEmployee.getEmail());
         Assertions.assertEquals(createdEmployee.getEmail(), retrievedEmployee.getEmail());
@@ -90,7 +90,7 @@ public class EmployeeServiceImplTest {
                             "0987654321", birthDate, "TITLE_2", "DEPARTMENT_2",
                             "LOCATION_2", oldStartDate, 115L, "REPORTING_MANAGER_2");
             Employee updatedEmployee = employeeService.updateEmployee(employeeUpdate);
-            Employee retrievedEmployee = employeeService.findEmployeeById(existingEmployee.get().getId());
+            Employee retrievedEmployee = employeeService.findEmployeeById(existingEmployee.get().getId()).get();
 
             Assertions.assertEquals("LAST_NAME_2_UPDATED", retrievedEmployee.getLastName());
         }
@@ -110,11 +110,11 @@ public class EmployeeServiceImplTest {
         // create specific employee to delete is in database
         Employee employeeToDelete = employeeService.createEmployee(newEmployee);
         // confirm employee is created
-        Employee retrievedEmployee = employeeService.findEmployeeById(employeeToDelete.getId());
+        Employee retrievedEmployee = employeeService.findEmployeeById(employeeToDelete.getId()).get();
         employeeService.deleteEmployeeById(retrievedEmployee.getId());
         // assert that same employee is now gone
         Assertions.assertThrows(EmployeeNotFoundException.class, () -> {
-            Employee deletedEmployee = employeeService.findEmployeeById(retrievedEmployee.getId());
+            Employee deletedEmployee = employeeService.findEmployeeById(retrievedEmployee.getId()).get();
         });
     }
 
@@ -125,6 +125,7 @@ public class EmployeeServiceImplTest {
             Employee deletedEmployee = employeeService.deleteEmployeeById(5000L);
         });
     }
+
     private void addEmployees() {
         employeeJpaRepository.saveAndFlush(existingEmployee);
     }

@@ -21,10 +21,10 @@ public class EmployeeServiceImpl implements EmployeeService {
     }
 
     @Override
-    public Employee findEmployeeById(Long id) {
+    public Optional<Employee> findEmployeeById(Long id) {
         Optional<Employee> resp = employeeJpaRepository.findById(id);
         if (resp.isPresent()) {
-            return resp.get();
+            return resp;
         } else {
             throw new EmployeeNotFoundException();
         }
@@ -64,4 +64,10 @@ public class EmployeeServiceImpl implements EmployeeService {
             throw new EmployeeNotFoundException();
         }
     }
+
+//    @ExceptionHandler(EmployeeNotFoundException.class)
+//    public ResponseEntity<Employee> handleExceptions(Exception e) {
+//        System.out.println("HEY!!!");
+//        return new ResponseEntity<>(null, HttpStatus.NOT_FOUND);
+//    }
 }

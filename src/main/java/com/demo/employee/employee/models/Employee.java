@@ -3,8 +3,6 @@ package com.demo.employee.employee.models;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import jakarta.persistence.*;
 import jakarta.validation.constraints.NotBlank;
-import org.hibernate.validator.constraints.UniqueElements;
-
 import java.time.LocalDate;
 
 @Entity
